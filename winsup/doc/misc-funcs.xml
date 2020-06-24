@@ -110,4 +110,75 @@ enum.  The second is an optional pointer.</para>
   </refsect1>
 </refentry>
 
+<refentry id="func-cygwin-cmdline-parse">
+  <refmeta>
+    <refentrytitle>cygwin_cmdline_parse</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo class="manual">Cygwin API Reference</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>cygwin_cmdline_parse</refname>
+  </refnamediv>
+
+  <refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>
+#include &lt;sys/cygwin.h&gt;
+</funcsynopsisinfo>
+<funcprototype>
+<funcdef>int
+<function>cygwin_cmdline_parse</function></funcdef>
+<paramdef>char *<parameter>cmd</parameter></paramdef>
+<paramdef>char ***<parameter>pargv</parameter></paramdef>
+<paramdef>char **<parameter>allocs</parameter></paramdef>
+<paramdef>int <parameter>doglob</parameter></paramdef>
+<paramdef>int <parameter>maxfile</parameter></paramdef>
+</funcprototype></funcsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1 id="func-cygwin-internal-desc">
+    <title>Description</title>
+<para>This function parses a Windows command line in the buffer in-place pointed to by <parameter>cmd</parameter> to the argv pointed to by <parameter>pargv</parameter>. Globbing is performed on non-quoted components if <parameter>doglob</parameter> is 1. Expansion of <ulink url="../cygwin-ug-net/using-specialnames.html#pathnames-at">@pathnames</ulink> is performed if <parameter>maxfile</parameter> is non-zero.</para>
+<para><parameter>maxfile</parameter> specifies the maximum number of @pathname expansions to perform. If the value is positive, -EMLINK is returned when the limit is exceeded. Othewise the parser quietly keeps the value.</para>
+<para>If <parameter>allocs</parameter> is non-NULL, any allocations due to @pathname expansions
+are stored inside. The new buffers should be released using free().</para>
+<para>The return value is the argument count, or a negative errno value on error. When an error occurs, <parameter>pargv</parameter> will reflect the extent of parsed arguments.</para>
+<para>Parsing is generally done according to the rules found in the 2008 Microsoft C++ Runtime. Extentions to the rule include @pathname support, globbing via glob(3), and acceptance of single quotes for quoting.</para>
+  </refsect1>
+</refentry>
+
+<refentry id="func-cygwin-cmdline-build">
+  <refmeta>
+    <refentrytitle>cygwin_cmdline_build</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo class="manual">Cygwin API Reference</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>cygwin_cmdline_build</refname>
+  </refnamediv>
+
+  <refsynopsisdiv>
+<funcsynopsis>
+<funcsynopsisinfo>
+#include &lt;sys/cygwin.h&gt;
+</funcsynopsisinfo>
+<funcprototype>
+<funcdef>char *
+<function>cygwin_cmdline_build</function></funcdef>
+<paramdef>const char * const *<parameter>argv</parameter></paramdef>
+<paramdef>int <parameter>allow_overflow</parameter></paramdef>
+<paramdef>int <parameter>forcequote</parameter></paramdef>
+</funcprototype></funcsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1 id="func-cygwin-internal-desc">
+    <title>Description</title>
+<para>This function builds a quoted Windows command line from the <parameter>argv</parameter> given. If <parameter>allow_overflow</parameter> is zero, a check is performed to prevent the cmdline from exceeding 32 KiB. If <parameter>forcequote</parameter> is true, all arguments will be quoted.</para>
+<para>The return value is a pointer to a newly-built string or NULL on error. This buffer should be released using free().</para>
+<para>This function is not a strict inversion of cygwin_cmdline_parse unless <parameter>forcequote</parameter> is on, due to the extensions provided by the parser.</para>
+  </refsect1>
+</refentry>
+
 </sect1>

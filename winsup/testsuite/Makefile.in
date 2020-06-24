@@ -96,6 +96,7 @@ install:
 install_host:
 
 clean:
+	-rm -f */*/*.d
 	-rm -f *.o *.dll *.a *.exp junk *.bak *.base *.exe testsuite/* *.d *.dat
 
 maintainer-clean realclean: clean
@@ -162,8 +163,9 @@ testsuite/site.exp: site.exp
 check: $(TESTSUP_LIB_NAME) $(RUNTIME) cygrun.exe testsuite/site.exp
 	cd testsuite; runtest --tool winsup $(RUNTESTFLAGS)
 
+# FIXME: I can't find where the MINGW_FE is, so...
 cygrun.o: cygrun.c
-	${MINGW_FE} $(CC) $(MINGW_CFLAGS) -o $@ -c $<
+	x86_64-w64-mingw32-gcc $(MINGW_CFLAGS) -o $@ -c $<
 
 cygrun.exe : cygrun.o
-	${MINGW_FE} $(CC) ${MINGW_LDFLAGS} -o $@ $<
+	x86_64-w64-mingw32-gcc ${MINGW_LDFLAGS} -o $@ $<

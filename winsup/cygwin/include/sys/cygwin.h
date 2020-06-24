@@ -86,6 +86,8 @@ extern void *cygwin_create_path (cygwin_conv_path_t what, const void *from);
 extern pid_t cygwin_winpid_to_pid (int);
 extern int cygwin_posix_path_list_p (const char *);
 extern void cygwin_split_path (const char *, char *, char *);
+extern int cygwin_cmdline_parse (char *, char ***, char **, int, int);
+extern char *cygwin_cmdline_build (const char * const *, int, int);
 
 struct __cygwin_perfile
 {

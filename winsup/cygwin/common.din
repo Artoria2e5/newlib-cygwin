@@ -393,6 +393,8 @@ cygwin_split_path NOSIGFE
 cygwin_stackdump SIGFE
 cygwin_umount SIGFE
 cygwin_winpid_to_pid SIGFE
+cygwin_cmdline_parse SIGFE
+cygwin_cmdline_build SIGFE
 daemon SIGFE
 dbm_clearerr SIGFE
 dbm_close SIGFE
