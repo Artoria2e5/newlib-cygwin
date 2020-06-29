@@ -75,7 +75,7 @@ endif
 RUNTIME=$(cygwin_build)/cygwin0.dll $(cygwin_build)/libcygwin0.a
 
 TESTSUP_LIB_NAME:=libltp.a
-TESTSUP_OFILES:=${sort ${addsuffix .o,${basename ${notdir ${wildcard $(libltp_srcdir)/lib/*.c}}}}}
+TESTSUP_OFILES:=${sort ${addsuffix .o,${basename ${wildcard $(libltp_srcdir)/lib/*.c}}}}
 
 override ALL_CFLAGS:=${filter-out -O%,$(ALL_CFLAGS)}
 override COMPILE_CC:=${filter-out -O%,$(COMPILE_CC)}
